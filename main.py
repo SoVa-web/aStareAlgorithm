@@ -3,4 +3,4 @@ from astare import Astare
 
 if __name__ == "__main__":
     graph = Graph()
-    Astare(graph).algorithm()
+    print(Astare(graph, 7, 0, 5).algorithm())
