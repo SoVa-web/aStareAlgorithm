@@ -45,7 +45,7 @@ class Astare:
             [0, 0, 2, 1, 1, 0, 1],
             [0, 0, 0, 1, 0, 1, 0]
         ] """
-        #use random:)
+        #or use random:)
         """for i in range(self.numberNodes):
             self.hueristics.append(numpy.array([random.randint(1, 10) for x in range(self.numberNodes)]))
         for i in range(self.numberNodes):
