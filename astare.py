@@ -17,14 +17,42 @@ class Astare:
         self.start = Node(start)
         self.target = Node(target)
         self.path = []
-        self.hueristics = [] #use random:)
-        for i in range(self.numberNodes):
+        self.hueristics = [
+        [0, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 5, 3, 4, 5, 6],
+        [1, 0, 1, 2, 3, 2, 1, 2, 3, 2, 3, 4, 4, 3, 4, 5],
+        [2, 1, 0, 1, 2, 1, 2, 3, 4, 3, 2, 3, 5, 4, 3, 4],
+        [3, 2, 1, 0, 1, 2, 3, 4, 5, 4, 3, 2, 6, 5, 4, 3],
+        [4, 3, 2, 1, 0, 1, 2, 3, 4, 3, 2, 1, 5, 4, 3, 2],
+        [3, 2, 1, 2, 1, 0, 1, 2, 3, 2, 1, 2, 4, 3, 2, 3],
+        [2, 1, 2, 3, 2, 1, 0, 1, 2, 1, 2, 3, 3, 2, 3, 4],
+        [1, 2, 3, 4, 3, 2, 1, 0, 1, 2, 3, 4, 2, 3, 4, 5],
+        [2, 3, 4, 5, 4, 3, 2, 1, 0, 1, 2, 3, 1, 2, 3, 4],
+        [3, 2, 3, 4, 3, 2, 1, 2, 1, 0, 1, 2, 2, 1, 2, 3],
+        [4, 3, 2, 3, 2, 1, 2, 3, 2, 1, 0, 1, 3, 2, 1, 2],
+        [5, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 0, 4, 3, 2, 1],
+        [3, 4, 5, 6, 5, 4, 3, 2, 1, 2, 3, 4, 0, 1, 2, 3],
+        [4, 3, 4, 5, 4, 3, 2, 3, 2, 1, 2, 3, 1, 0, 1, 2],
+        [5, 4, 3, 4, 3, 2, 3, 4, 3, 2, 1, 2, 2, 1, 0, 1],
+        [6, 5, 4, 3, 2, 3, 4, 5, 4, 3, 2, 1, 3, 2, 1, 0],
+        ]
+        
+        """[
+            [0, 1, 2, 0, 1, 0, 0],
+            [1, 0, 1, 0, 0, 0, 0],
+            [2, 1, 0, 1, 2, 2, 0],
+            [0, 0, 1, 0, 0, 1, 1],
+            [1, 0, 2, 0, 0, 1, 0],
+            [0, 0, 2, 1, 1, 0, 1],
+            [0, 0, 0, 1, 0, 1, 0]
+        ] """
+        #use random:)
+        """for i in range(self.numberNodes):
             self.hueristics.append(numpy.array([random.randint(1, 10) for x in range(self.numberNodes)]))
         for i in range(self.numberNodes):
             for j in range(self.numberNodes):
                 self.hueristics[i][j] = self.hueristics[j][i]
                 if i == j:
-                    self.hueristics[i][j] = 0
+                    self.hueristics[i][j] = 0"""
             
 
 
@@ -42,17 +70,17 @@ class Astare:
                 if adjacent not in open:
                     open.append(adjacent)
                     adjacent.previous = current_node.node
-                    adjacent.g += self.graph.matrix_adjacency[current_node.node][adjacent.node]
+                    adjacent.g = current_node.g + self.graph[current_node.node][adjacent.node]
                 if current_node.g + 1  < adjacent.g: 
                     adjacent.previous = current_node.node
                     adjacent.g = current_node.g + 1
-        return None
+        return "Path not exist"
 
     def get_adjacent_nodes(self, current_node, closed):
         new_open = []
         new_open_node = []
         for adjacent in range(self.numberNodes):
-            if self.graph.matrix_adjacency[current_node.node][adjacent] > 0:
+            if self.graph[current_node.node][adjacent] > 0:
                 new_open.append(adjacent)
         for closed_node in closed:
             if closed_node.node in new_open:
@@ -65,7 +93,6 @@ class Astare:
     def build_path(self, to_node, closed):
         path = []
         while to_node.previous != None:
-            print(to_node.previous)
             path.append(to_node.node)
             for node in closed:
                 if to_node.previous == node.node:
